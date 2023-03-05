@@ -55,12 +55,12 @@ jobs:
     needs: build_and_push_to_docker_hub
     steps:
       - name: executing remote ssh commands to deploy
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          # passphrase: ${{ secrets.PASSPHRASE }}
+          passphrase: ${{ secrets.PASSPHRASE }}
           script: |
             sudo docker pull blackdogsleeps/infra_project:latest
             sudo docker stop $(sudo docker ps -a -q)
