@@ -6,8 +6,6 @@ on: [push]
 jobs:
   tests:
     runs-on: ubuntu-latest
-
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -26,6 +24,7 @@ jobs:
           python -m flake8
           cd infra_project/
           python manage.py test
+
 
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
@@ -50,6 +49,7 @@ jobs:
           push: true
           tags: blackdogsleeps/infra_project:latest
 
+
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
@@ -65,3 +65,14 @@ jobs:
             sudo docker pull blackdogsleeps/infra_project:latest
             sudo docker stop $(sudo docker ps -a -q)
             sudo docker run --rm -d -p 5000:5000 blackdogsleeps/infra_project:latest
+
+  send_message:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - name: send message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: ${{ github.workflow }} completed successfully!
