@@ -58,9 +58,9 @@ jobs:
         uses: fifsky/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
+          user: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
+          pass: ${{ secrets.PASSPHRASE }}
           command: |
             sudo docker pull blackdogsleeps/infra_project:latest
             sudo docker stop $(sudo docker ps -a -q)
