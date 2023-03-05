@@ -60,7 +60,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
+          # passphrase: ${{ secrets.PASSPHRASE }}
           script: |
             sudo docker pull blackdogsleeps/infra_project:latest
             sudo docker stop $(sudo docker ps -a -q)
